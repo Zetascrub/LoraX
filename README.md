@@ -85,7 +85,7 @@ Use `--harvest-only <keys>` to target specific categories: `ssh`, `aws`, `k8s`, 
 ## Requirements
 
 ```bash
-pip install meshtastic pypubsub pyserial cryptography
+pip install -r requirements.txt
 ```
 
 Python 3.8+. Compression, hashing, and archiving use the standard library.
@@ -110,43 +110,43 @@ On startup, `recv` mode prints the node's **public key** — copy this and pass 
 
 ```bash
 # Basic (channel encryption only)
-python3 lorax.py --mode harvest --radio 192.168.8.179 --dest '!eea17dfc'
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!eea17dfc'
 
 # With E2E encryption (recommended)
-python3 lorax.py --mode harvest --radio 192.168.8.179 --dest '!eea17dfc' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!eea17dfc' \
   --pubkey <base64url-public-key>
 
 # Target specific categories only
-python3 lorax.py --mode harvest --radio 192.168.8.179 --dest '!eea17dfc' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!eea17dfc' \
   --harvest-only ssh,aws,k8s
 
 # Wait for confirmed ACK (requires healthy bidirectional link)
-python3 lorax.py --mode harvest --radio 192.168.8.179 --dest '!eea17dfc' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!eea17dfc' \
   --pubkey <base64url-public-key> --wait-ack
 ```
 
 ### Send a specific file
 
 ```bash
-python3 lorax.py --mode send --radio 192.168.8.179 --dest '!eea17dfc' \
+python3 lorax.py --mode send --radio 192.168.0.100 --dest '!eea17dfc' \
   --file /path/to/file --pubkey <base64url-public-key>
 ```
 
 ### Scan (preview only — nothing is sent)
 
 ```bash
-python3 lorax.py --mode scan --radio 192.168.8.179
-python3 lorax.py --mode scan --radio 192.168.8.179 --harvest-only ssh,aws
+python3 lorax.py --mode scan --radio 192.168.0.100
+python3 lorax.py --mode scan --radio 192.168.0.100 --harvest-only ssh,aws
 ```
 
 ### Test link quality before transferring
 
 ```bash
 # Probe — RTT, SNR, and recommended --delay (recv must be running on the other end)
-python3 lorax.py --mode probe --radio 192.168.8.179 --dest '!eea17dfc'
+python3 lorax.py --mode probe --radio 192.168.0.100 --dest '!eea17dfc'
 
 # Conn — bidirectional check; run on both sides simultaneously
-python3 lorax.py --mode conn --radio 192.168.8.179 --dest '!eea17dfc'   # sender side
+python3 lorax.py --mode conn --radio 192.168.0.100 --dest '!eea17dfc'   # sender side
 python3 lorax.py --mode conn --radio serial         --dest '!043aae20'   # receiver side
 ```
 
@@ -157,13 +157,13 @@ Both sides will print `✓ LINK UP` if the link is bidirectional. If only one si
 ```bash
 # Dump all Meshtastic packets received by a node
 python3 lorax.py --mode sniff --radio serial
-python3 lorax.py --mode sniff --radio 192.168.8.179
+python3 lorax.py --mode sniff --radio 192.168.0.100
 ```
 
 ### Benchmark
 
 ```bash
-python3 lorax.py --mode bench --radio 192.168.8.179 --dest '!eea17dfc' --delay 5
+python3 lorax.py --mode bench --radio 192.168.0.100 --dest '!eea17dfc' --delay 5
 ```
 
 ---
@@ -200,7 +200,7 @@ LORAX supports end-to-end encryption independent of the Meshtastic channel PSK. 
 
 2. Pass that key to the sender with `--pubkey`:
    ```bash
-   python3 lorax.py --mode harvest --radio 192.168.8.179 --dest '!eea17dfc' \
+   python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!eea17dfc' \
      --pubkey L9JhXyAWBLl-lnpGTF9x8W8u7lNmMSqSPXVXnlc3axY=
    ```
 
@@ -237,7 +237,7 @@ Packet budget: 237B nominal LoRa payload → 54B Meshtastic overhead → **183B 
 
 Tested with:
 
-- **Heltec V3** — networked node (TCP at `192.168.8.179`), acts as victim radio
+- **Heltec V3** — networked node (TCP at `192.168.0.100`), acts as victim radio
 - **ThinkNode M1** — USB serial node (`/dev/ttyACM0`), acts as attacker receiver
 - **RAK4631** — solar-powered relay node
 
