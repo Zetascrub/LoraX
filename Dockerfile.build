@@ -1,0 +1,30 @@
+FROM python:3.10-slim-bullseye
+
+RUN apt-get update && apt-get install -y binutils && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+COPY lorax.py requirements.txt ./
+
+RUN pip install --quiet -r requirements.txt pyinstaller && \
+    pyinstaller \
+        --onefile \
+        --name lorax \
+        --strip \
+        --hidden-import meshtastic.tcp_interface \
+        --hidden-import meshtastic.serial_interface \
+        --hidden-import meshtastic.mesh_interface \
+        --hidden-import meshtastic.node \
+        --hidden-import pubsub \
+        --hidden-import pubsub.core \
+        --hidden-import serial.tools.list_ports \
+        --hidden-import cryptography.hazmat.primitives.asymmetric.x25519 \
+        --hidden-import cryptography.hazmat.primitives.ciphers.aead \
+        --hidden-import cryptography.hazmat.primitives.kdf.hkdf \
+        --hidden-import cryptography.hazmat.backends.openssl \
+        --hidden-import cryptography.hazmat.backends.openssl.backend \
+        lorax.py
+
+# Build targets (run via build.sh):
+#   linux/amd64   → lorax-linux-x86_64
+#   linux/arm64   → lorax-linux-arm64
+#   linux/arm/v7  → lorax-linux-armv7
