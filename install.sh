@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # LORAX installer
-# curl -s https://raw.githubusercontent.com/<USERNAME>/LoraX/main/install.sh | bash
+# curl -s https://raw.githubusercontent.com/Zetascrub/LoraX/main/install.sh | bash
 
 set -e
 
-REPO="<USERNAME>/LoraX"
+REPO="Zetascrub/LoraX"
 BINARY="lorax"
 
 DOWNLOAD_URL=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" \
