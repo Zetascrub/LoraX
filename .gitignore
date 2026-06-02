@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+
+# PyInstaller build artefacts
+build/
+dist/
+*.spec
+
+# Received loot — never commit exfiltrated data
+loot/
+received/
+
+# Key material — never commit private keys
+lorax.key
+*.key
+*.pem
+
+# Meshtastic device configs (may contain PSKs and private keys)
+*_config.yaml
+
+# Test files — may contain fake but sensitive-looking data
+test_secret
+
+# IDE / OS
+.claude/
+.vscode/
+*.swp
+.DS_Store
