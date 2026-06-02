@@ -241,7 +241,13 @@ Tested with:
 - **ThinkNode M1** — USB serial node (`/dev/ttyACM0`), acts as attacker receiver
 - **RAK4631** — solar-powered relay node
 
-Any Meshtastic-compatible hardware works. For an implant concept (plug into a target machine and auto-harvest), a Pi Zero 2W + LoRa hat + LiPo is a practical build.
+Any Meshtastic-compatible hardware works. Connect via `--radio <IP>` for TCP nodes or `--radio serial` for USB serial nodes (auto-detects port).
+
+### Recommended plant device: LILYGO T-Echo Lite
+
+The T-Echo Lite is an excellent proof-of-concept implant. It is small enough to be inconspicuous, connects via USB-C (enumerated as a standard serial device), runs Meshtastic firmware, and is available for under £25. Plug it into any USB-C port on the target machine, drop the `lorax` binary, and run harvest — no additional hardware or drivers required.
+
+For longer unattended deployments: a **Pi Zero 2W** with a LoRa hat and a small LiPo is a self-contained implant that fits inside a standard USB wall charger enclosure.
 
 ---
 
