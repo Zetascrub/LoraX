@@ -24,6 +24,9 @@ lorax.key
 # Meshtastic device configs (may contain PSKs and private keys)
 *_config.yaml
 
+# Talk/research notes — keep local
+LESSONS_LEARNED.md
+
 # Test files — may contain fake but sensitive-looking data
 test_secret
 
