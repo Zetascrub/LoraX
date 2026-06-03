@@ -27,6 +27,13 @@ lorax.key
 # Talk/research notes — keep local
 LESSONS_LEARNED.md
 
+# Mesh node dumps — contain real node IDs, GPS coords, public keys
+nodes.txt
+*.txt
+
+# Meshtastic plant/victim device configs
+victim_mesh.yaml
+
 # Test files — may contain fake but sensitive-looking data
 test_secret
 
