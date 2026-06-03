@@ -216,7 +216,7 @@ Tested with:
 - **ThinkNode M1** - USB serial node, acts as attacker receiver
 - **RAK4631** - solar-powered relay node
 
-Any Meshtastic-compatible hardware works. Connect via `--radio <IP>` for TCP nodes or `--radio serial` for USB.
+Any hardware on the [Meshtastic supported hardware list](https://meshtastic.org/docs/hardware) should work. Connect via `--radio <IP>` for TCP nodes or `--radio serial` for USB.
 
 ### Recommended plant device: LILYGO T-Echo Lite
 
