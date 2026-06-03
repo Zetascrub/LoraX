@@ -110,25 +110,25 @@ On startup, `recv` mode prints the node's **public key** — copy this and pass 
 
 ```bash
 # Basic (channel encryption only)
-python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!YOUR_NODE_ID'
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!aabbccdd'
 
 # With E2E encryption (recommended)
-python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!YOUR_NODE_ID' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!aabbccdd' \
   --pubkey <base64url-public-key>
 
 # Target specific categories only
-python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!YOUR_NODE_ID' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!aabbccdd' \
   --harvest-only ssh,aws,k8s
 
 # Wait for confirmed ACK (requires healthy bidirectional link)
-python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!YOUR_NODE_ID' \
+python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!aabbccdd' \
   --pubkey <base64url-public-key> --wait-ack
 ```
 
 ### Send a specific file
 
 ```bash
-python3 lorax.py --mode send --radio 192.168.0.100 --dest '!YOUR_NODE_ID' \
+python3 lorax.py --mode send --radio 192.168.0.100 --dest '!aabbccdd' \
   --file /path/to/file --pubkey <base64url-public-key>
 ```
 
@@ -143,11 +143,11 @@ python3 lorax.py --mode scan --radio 192.168.0.100 --harvest-only ssh,aws
 
 ```bash
 # Probe — RTT, SNR, and recommended --delay (recv must be running on the other end)
-python3 lorax.py --mode probe --radio 192.168.0.100 --dest '!YOUR_NODE_ID'
+python3 lorax.py --mode probe --radio 192.168.0.100 --dest '!aabbccdd'
 
 # Conn — bidirectional check; run on both sides simultaneously
-python3 lorax.py --mode conn --radio 192.168.0.100 --dest '!YOUR_NODE_ID'   # sender side
-python3 lorax.py --mode conn --radio serial         --dest '!043aae20'   # receiver side
+python3 lorax.py --mode conn --radio 192.168.0.100 --dest '!aabbccdd'   # sender side
+python3 lorax.py --mode conn --radio serial         --dest '!11223344'   # receiver side
 ```
 
 Both sides will print `✓ LINK UP` if the link is bidirectional. If only one side prints it, the return path is broken (ACK will not reach the sender).
@@ -163,7 +163,7 @@ python3 lorax.py --mode sniff --radio 192.168.0.100
 ### Benchmark
 
 ```bash
-python3 lorax.py --mode bench --radio 192.168.0.100 --dest '!YOUR_NODE_ID' --delay 5
+python3 lorax.py --mode bench --radio 192.168.0.100 --dest '!aabbccdd' --delay 5
 ```
 
 ---
@@ -174,7 +174,7 @@ python3 lorax.py --mode bench --radio 192.168.0.100 --dest '!YOUR_NODE_ID' --del
 |---|---|---|
 | `--mode` | required | `harvest`, `send`, `recv`, `scan`, `probe`, `bench`, `sniff`, `conn` |
 | `--radio` | required | IP address for TCP node, or `serial` for USB auto-detect |
-| `--dest` | `!YOUR_NODE_ID` | Destination node ID |
+| `--dest` | `!aabbccdd` | Destination node ID |
 | `--delay` | `10` | Seconds between chunks. Run `probe` for a link-specific recommendation |
 | `--file` | — | File to send (`send` mode only) |
 | `--output` | `./received` | Output directory (`recv` mode) |
@@ -195,13 +195,13 @@ LORAX supports end-to-end encryption independent of the Meshtastic channel PSK. 
 
 1. Start the receiver — it prints its public key on startup:
    ```
-   · Public key   : L9JhXyAWBLl-lnpGTF9x8W8u7lNmMSqSPXVXnlc3axY=
+   · Public key   : <receiver-public-key>
    ```
 
 2. Pass that key to the sender with `--pubkey`:
    ```bash
-   python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!YOUR_NODE_ID' \
-     --pubkey L9JhXyAWBLl-lnpGTF9x8W8u7lNmMSqSPXVXnlc3axY=
+   python3 lorax.py --mode harvest --radio 192.168.0.100 --dest '!aabbccdd' \
+     --pubkey <receiver-public-key>
    ```
 
 The sender generates a fresh ephemeral X25519 key pair for every transfer. Both sides perform ECDH to derive a per-transfer session key via HKDF-SHA256. The filename and all chunk data are encrypted with ChaCha20-Poly1305. The private key stays on the receiver (`./lorax.key`, mode 600) and never leaves the device.
