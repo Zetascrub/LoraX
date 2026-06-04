@@ -42,3 +42,5 @@ test_secret
 .vscode/
 *.swp
 .DS_Store
+make_slides.py
+LORAX_Talk.pptx
